@@ -7,21 +7,27 @@ typedef enum {
 	true
 }bool;
 
+// Window Dimensions
 #define SCALE (50)
 #define ROWS (1 * SCALE)
 #define COLUMNS (2 * SCALE)
-#define CELLBOUNDS ((ROWS-1) || (COLUMNS-1))
+// Window Border Style
+#define WALL '|'
+#define WCORN '+'
+#define WWALL '='
+// Functionality
 #define LOOPDELAY (1000000000) // If your system is slower, make this smaller.
-
 #define addMargin(iter,margin) for(int i = 0; i < iter; i++) putchar(margin)
 
 void renderScreen(const bool arr[ROWS][COLUMNS]) 
 {
 	for(int i = 0; i < ROWS; i++) {
+		addMargin(4,'\t'); putchar(WALL);
 		for(int j = 0; j < COLUMNS; j++) {
 			if(arr[i][j] == true) putchar('#');
 			else putchar(' ');
 		}
+		putchar(WALL);
 		putchar('\n');
 	}
 }
@@ -47,6 +53,7 @@ bool evalCell(const bool arr[ROWS][COLUMNS], int index_r, int index_c)
 int main(void)
 {
 	bool cells[ROWS][COLUMNS];
+	const int SPEEDLIM = 15, INTENSITYLIM = 20;
 	int speed, intensity;
 	printf(
 		"Conway's Game of Life!!!\n"
@@ -55,35 +62,37 @@ int main(void)
 	);
 	while (true)
 	{
-		printf("How fast would you like it? (1-10): ");
+		printf("How fast would you like it? (1-%d): ", SPEEDLIM);
 		scanf("%d", &speed);
-		if (((int)speed > 10) || ((int)speed < 1)) printf("Invalid argument. \n");
+		if (((int)speed > SPEEDLIM) || ((int)speed < 1)) printf("Invalid argument. \n");
 		else break;
 	}
 	while (true)
 	{
-		printf("And the intensity? (1-20): ");
+		printf("And the intensity? (1-%d): ", INTENSITYLIM);
 		scanf("%d", &intensity);
-		if ((intensity > 20) || (intensity < 1)) printf("Invalid argument. \n");
+		if ((intensity > INTENSITYLIM) || (intensity < 1)) printf("Invalid argument. \n");
 		else break;
 	}
 
 	srand(time(0));
 	for(int i = 0; i < ROWS; i++)
 		for(int j = 0; j < COLUMNS; j++)
-			cells[i][j] = (rand() % intensity) == 1 ? true : false;
+			cells[i][j] = (rand() % (intensity+1)) == 1 ? true : false;
 	
 	renderScreen(cells);
 	while (true)
 	{
 		addMargin(8, '\n');
-		addMargin(COLUMNS, '=');
+		addMargin(4,'\t'); putchar(WCORN);
+		addMargin(COLUMNS, WWALL); putchar(WCORN);
 		putchar('\n');
 		for(int i = 0; i < ROWS; i++)
 			for(int j = 0; j < COLUMNS; j++)
 				cells[i][j] = evalCell(cells, i, j);
 		renderScreen(cells);
-		addMargin(COLUMNS, '=');
+		addMargin(4,'\t'); putchar(WCORN);
+		addMargin(COLUMNS, WWALL); putchar(WCORN);
 		addMargin(8, '\n');
 		for (long i = 0; i < LOOPDELAY/speed; i++);
 	}
