@@ -9,7 +9,7 @@ SRCS = $(wildcard $(SDIR)/*.c)
 DEPS = $(wildcard $(IDIR)/*.h)
 OBJS = $(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(SRCS))
 
-OUTPUT = bin/ascii
+OUTPUT = bin/main
 
 $(ODIR)/%.o: $(SDIR)/%.c $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $<

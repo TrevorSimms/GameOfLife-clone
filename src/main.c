@@ -11,7 +11,7 @@ typedef enum {
 #define ROWS (1 * SCALE)
 #define COLUMNS (2 * SCALE)
 #define CELLBOUNDS ((ROWS-1) || (COLUMNS-1))
-#define LOOPDELAY (1000000000)
+#define LOOPDELAY (1000000000) // If your system is slower, make this smaller.
 
 #define addMargin(iter,margin) for(int i = 0; i < iter; i++) putchar(margin)
 
