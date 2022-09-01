@@ -10,7 +10,7 @@ typedef enum {
 // Window Dimensions
 #define SCALE (50)
 #define ROWS (1 * SCALE)
-#define COLUMNS (2 * SCALE)
+#define COLUMNS (int)(2.9 * SCALE)
 // Window Border Style
 #define WALL '|'
 #define WCORN '+'
@@ -53,7 +53,7 @@ bool evalCell(const bool arr[ROWS][COLUMNS], int index_r, int index_c)
 int main(void)
 {
 	bool cells[ROWS][COLUMNS];
-	const int SPEEDLIM = 15, INTENSITYLIM = 20;
+	const int SPEEDLIM = 30, INTENSITYLIM = 20;
 	int speed, intensity;
 	printf(
 		"Conway's Game of Life!!!\n"
@@ -71,6 +71,7 @@ int main(void)
 	{
 		printf("And the intensity? (1-%d): ", INTENSITYLIM);
 		scanf("%d", &intensity);
+		intensity = INTENSITYLIM - intensity + 1;
 		if ((intensity > INTENSITYLIM) || (intensity < 1)) printf("Invalid argument. \n");
 		else break;
 	}
@@ -94,7 +95,7 @@ int main(void)
 		addMargin(4,'\t'); putchar(WCORN);
 		addMargin(COLUMNS, WWALL); putchar(WCORN);
 		addMargin(8, '\n');
-		for (long i = 0; i < LOOPDELAY/speed; i++);
+		for (long i = 0; i < (int)(LOOPDELAY/speed); i++);
 	}
 	
 	return 0;
