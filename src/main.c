@@ -84,17 +84,25 @@ int main(void)
 	renderScreen(cells);
 	while (true)
 	{
+		// top wall
 		addMargin(8, '\n');
-		addMargin(4,'\t'); putchar(WCORN);
-		addMargin(COLUMNS, WWALL); putchar(WCORN);
+		addMargin(4,'\t'); 
+		putchar(WCORN);
+		addMargin(COLUMNS, WWALL); 
+		putchar(WCORN);
 		putchar('\n');
+		// update cells and render
 		for(int i = 0; i < ROWS; i++)
 			for(int j = 0; j < COLUMNS; j++)
 				cells[i][j] = evalCell(cells, i, j);
 		renderScreen(cells);
-		addMargin(4,'\t'); putchar(WCORN);
-		addMargin(COLUMNS, WWALL); putchar(WCORN);
+		// bottom wall
+		addMargin(4,'\t'); 
+		putchar(WCORN);
+		addMargin(COLUMNS, WWALL); 
+		putchar(WCORN);
 		addMargin(8, '\n');
+		// add delay
 		for (long i = 0; i < (int)(LOOPDELAY/speed); i++);
 	}
 	
